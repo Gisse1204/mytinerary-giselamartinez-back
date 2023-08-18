@@ -1,7 +1,19 @@
-import express from "express";
-import indexRouter from "./router/indexRouter.js";
+import 'dotenv/config.js'
+import express from "express"
+import indexRouter from "./router/indexRouter.js"
+import cors from 'cors'
+import './config/database.js'
 
 const server = express();
+
+/* const corsOption ={
+    origin:'http://localhost:5173/'
+} */
+//server.use(cors(corsOptions))
+server.use(cors())
+
+server.use(express.json())
+
 server.use('/api', indexRouter)
 
 server.get('/', (request, response, next)=>{
@@ -9,4 +21,4 @@ server.get('/', (request, response, next)=>{
 })
 
 
-server.listen(1212, ()=> {console.log('Servidor corriendo en puerto 1212')})
+server.listen(process.env['PORT'], ()=> {console.log('Servidor corriendo en puerto ' + process.env['PORT'])})
