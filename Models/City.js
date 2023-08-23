@@ -11,6 +11,6 @@ const citySchema = Schema({
     timestamps:true
 })
 
-const City = model('citie', citySchema)
+const City = model('city', citySchema)
 
 export default City
