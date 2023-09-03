@@ -1,6 +1,5 @@
 import cities from '../cities.js'
-import City from '../Models/City.js'
-import Country from '../Models/Country.js'
+import City from "../Models/City.js";
 
 const citiesController = {
     getAllCities: async (request, response, next) => {
@@ -8,10 +7,7 @@ const citiesController = {
         let error = null;
         let success = true;
         try {
-            cities = await City.find().populate({ 
-                path:'country',
-                select : 'country description'
-            })
+            cities = await City.find()
             response.json({
                 response: cities,
                 success,
@@ -21,7 +17,7 @@ const citiesController = {
             console.log(err)
             success = false,
             error = err;
-            return next(err)
+            next(err)
         }        
     },
 
@@ -51,14 +47,8 @@ const citiesController = {
         let cities;
         let error = null;
         let success = true;        
-        try {
-            /* const newCity = new City(request.body)
-            await newCity.save()
-            console.log(newCity) */
-           const country = await Country.findOne({country: request.body.country})
-           const query  = {...request.body}
-           query.country = category._id
-            cities = await City.create(query)
+        try {           
+            cities = await City.create(request.body)
             console.log(cities);
         } catch (err) {
             console.log(err)
@@ -89,12 +79,12 @@ const citiesController = {
         },
 
         deleteOneCities: async (request, response, next) => {
-            const { id } = req.params
+            const { id } = request.params
             let cities;
             let success = true;
             try {
                 cities = await City.findOneAndDelete( {_id: id} )
-                res.json({
+                response.json({
                     response: cities,
                     success
                 })

@@ -1,8 +1,8 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 
 const citySchema = Schema({
     name: {type: String, required: true},
-    country: {type: Schema.Types.ObjectId, ref:'country', required: true},
+    country: {type: String, required:true},
     description: {type: String},
     image: {type: String, required: true},
     currency: {type: String, required: true},
