@@ -1,5 +1,6 @@
 import City from "../Models/City.js";
 import Itinerary from "../Models/Itinerary.js";
+import mongoose from "mongoose";
 
 const itineraryController = {
     getAllItinerary: async (request, response, next) => {
@@ -11,15 +12,22 @@ const itineraryController = {
         }
     },
 
-    getOneItinerary: async (request, response, next) => {
-      const { id } = request.params;
-      try {          
-          const finditinerary = await Itinerary.findById(id);
-          response.json({ success: true, response: finditinerary });
+    getItinerariesByCityRelated: async (request, response, next) => {
+      const { cityId } = request.params;
+      try {
+        if (!mongoose.Types.ObjectId.isValid(cityId)) {
+          return response.json({ success: false, response: "Invalid cityId." });
+        }
+        const itineraries = await Itinerary.find({ cityRelated: cityId });
+        if (itineraries.length === 0) {
+          response.json({ success: false, response: "No itineraries found for this city." });
+        } else {
+          response.json({ success: true, response: itineraries });
+        }
       } catch (error) {
-          response.json({ success: false, response: "Error '_id' of itinerary not valid." });
+        response.status(500).json({ success: false, response: error.message });
       }
-  },
+    },
 
     createOneItinerary: async (request, response, next) => {
         try {
