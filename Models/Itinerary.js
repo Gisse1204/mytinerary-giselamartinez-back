@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const itinerarySchema = Schema({
     title: {type:String, required:true},
+    photo: {type:String, required:true},
     autor: {
         fullName: { type: String, required: true },
         profilePhoto: { type: String, required: true }
@@ -12,6 +13,7 @@ const itinerarySchema = Schema({
     hashTags: [{type:String, required:true}],
     comments: {type:String, required:true},
     cityRelated: {type: Schema.Types.ObjectId, ref: 'City', required: true},
+
 }, {
     timestamps: true
 })
